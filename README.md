@@ -39,7 +39,9 @@ All the models are trained and tested on my personal GeForce RTX 3050 (mobile) G
 
 ## 4. Common task I
 As presented in my attempt at the evaluation test for [Physics-Guided Machine Learning](https://github.com/anirudhshankar99/DeepLense_PINN), here are the results of common task I, using the *Resnet_simple* model, and the much deeper *ResNet18* $^{[3]}$ model.
+
 ![ROC Curves of the classification](Results/resnet_simple.png "ROC Curves of the classification")
+
 ![ROC Curves of the classification](Results/resnet_18.png "ROC Curves of the classification")
 
 ## 5. Results
