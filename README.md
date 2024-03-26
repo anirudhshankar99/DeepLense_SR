@@ -89,7 +89,7 @@ This is specially useful in the super-resolution of lensing images where the fin
 ## 6. Perspective
 
 * A potential upgrade could be the integration of a feature loss demonstrated above in a transformer architecture, as it would then also benefit from the transformer's capacity to study positional encodings.
-* An upgrade in a different approach would be the Physics-Informing of the SR architecture, as suggested HERELINKITDONTFORHET.
+* An upgrade in a different approach would be the Physics-Informing of the SR architecture to be able to handle less perfect datasets.
 
 ## 7. Bibliography
 
