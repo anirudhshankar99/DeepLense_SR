@@ -13,7 +13,7 @@ An initial description of all the models used is followed by training and evalua
 ## 2. Models
 
 This section provides a brief description of the models, as they are named in the repository. Many models are adaptations of those presented by Sagar Vinodababu [here](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Super-Resolution).
-1. ResnetSISR, ResnetSISR_sparse, ResnetSISR_sparse_deep: ResNet [$^{[1]}$](#7-bibliography) based **super-resolution models**. They can have different number of residual blocks that are mentioned.
+1. ResnetSISR, ResnetSISR_sparse, ResnetSISR_sparse_deep: ResNet [[1]](#7-bibliography) based **super-resolution models**. They can have different number of residual blocks that are mentioned.
 2. Denoiser: Modified [*ResnetSISR*](#2-models) model that doesn't upscale image resolution, and is instead trained to **denoise images**. It is trained against low-resolution images with added gaussian noise with different std, that are mentioned. 
 3. DenoisedSISR (ResnetSISR_denoise in the repository): A **frozen** (trained but non-learning) [*Denoiser*](#2-models) module fitted with the [*ResnetSISR*](#2-models), that also performs **super-resolution**. 
 4. Resnet_simple: A **frozen**, truncated (to retain the first two convolutions and a maxpool) classifier that is used in my attempt at the DeepLense: [Physics-Guided Machine Learning](https://github.com/anirudhshankar99/DeepLense_PINN) evaluation task to classify strong lensing images based on dark matter substructure of the lensing object. Its purpose is to identify features it learnt in its training to produce feature space representations of the images for this task. How this helps is explained in a [later section](#51-limitations-of-training-with-mse), but overall, it helps present a better loss function for learning.
@@ -29,7 +29,7 @@ All models are trained using a 90:10 train:validation split on the training data
 ### 3.1 Data
 
 #### 3.1.1 Dataset and augmentation
-1. [dataset_1](https://drive.google.com/file/d/1uJmDZw649XS-r-dYs9WD-OPwF_TIroVw/view?usp=sharing) contains 1000 lensing images with no dark matter substructure, whose description is presented in [$^{[2]}$](#7-bibliography). Analyses on this dataset correspond to subtask A.
+1. [dataset_1](https://drive.google.com/file/d/1uJmDZw649XS-r-dYs9WD-OPwF_TIroVw/view?usp=sharing) contains 1000 lensing images with no dark matter substructure, whose description is presented in [[2]](#7-bibliography). Analyses on this dataset correspond to subtask A.
 2. [dataset_2](https://drive.google.com/file/d/1plYfM-jFJT7TbTMVssuCCFvLzGdxMQ4h/view?usp=sharing) contains 300 lensing images captured from the HSC and HST telescopes. As they are physically captured, they also contain a quantity of noise, and are limited in number.
 All the models are trained and tested on my personal GeForce RTX 3050 (mobile) GPU. Analyses on this dataset correspond to subtask B.
 
@@ -38,7 +38,7 @@ All the models are trained and tested on my personal GeForce RTX 3050 (mobile) G
 2. Use `pip install -r requirements.txt` from the parent main directory to install the required dependencies
 
 ## 4. Common task I
-As presented in my attempt at the evaluation test for [Physics-Guided Machine Learning](https://github.com/anirudhshankar99/DeepLense_PINN), here are the results of common task I, using the [*Resnet_simple*](#2-models) model, and the much deeper *ResNet18* [$^{[3]}$](#7-bibliography) model.
+As presented in my attempt at the evaluation test for [Physics-Guided Machine Learning](https://github.com/anirudhshankar99/DeepLense_PINN), here are the results of common task I, using the [*Resnet_simple*](#2-models) model, and the much deeper *ResNet18* [[3]](#7-bibliography) model.
 
 ![ROC Curves of the classification](Results/resnet_simple.png "ROC Curves of the classification")
 
@@ -74,16 +74,16 @@ Below are results of the subtask B, on Dataset B.
 Firstly, we see that increasing model depth does not improve performance.
 The [*DenoisedSISR*](#2-models) model trained with 0.1 std noise seems to be the best performing, across all statistics. The truth in this is limited. While it does outperform all other ResnetSISR architectures, and it seems to very convincingly outperform the [*SRGan*](#2-models) too, the images have a different story to tell.
 ![Marked light sources](Results/B_marked.png "Marked light sources")
-I have indicated in the image above clearly the distinct point light sources. The second is not clearly reprocuced by any architecture, except the [*SRGan*](#2-models), which was specifically trained for this purpose, as presented in [$^{[3]}$](#7-bibliography). The difference lies in the loss function that trains the architecture.
+I have indicated in the image above clearly the distinct point light sources. The second is not clearly reprocuced by any architecture, except the [*SRGan*](#2-models), which was specifically trained for this purpose, as presented in [[3]](#7-bibliography). The difference lies in the loss function that trains the architecture.
 
 ### 5.1 Limitations of training with MSE
 
-Below is an illustration adapted from [$^{[3]}$](#7-bibliography) that shows the attempts of a SR model in reconstructing a hatched pattern.
+Below is an illustration adapted from [[3]](#7-bibliography) that shows the attempts of a SR model in reconstructing a hatched pattern.
 
 ![Why the average prediction is picked](Results/Feature_necessity.png "")
 
 The each of the three options the model has (with red squares) are good candidates for the SR image. The model however finds it difficult to pick any of them, as the **safest** choice is the averaged choice as it gives the least MSE when compared with all other options. MSE as a loss function thus fails to capture the specific features to be magnified, and instead produces an images with blurry regions. This is well seen in Section 4.2.
-The solution proposed shown in [$^{[3]}$](#7-bibliography) is to use a trained truncated classifier, to select the specific features from the images. The MSE of the features of the LR image and the HR ground truth are computed and appended to the generator loss to then train the architecture. The [*SRGan*](#2-models) is thus able to reproduce the intricate features, as seen in Section 4.2.
+The solution proposed shown in [[3]](#7-bibliography) is to use a trained truncated classifier, to select the specific features from the images. The MSE of the features of the LR image and the HR ground truth are computed and appended to the generator loss to then train the architecture. The [*SRGan*](#2-models) is thus able to reproduce the intricate features, as seen in Section 4.2.
 This is specially useful in the super-resolution of lensing images where the fine structure creates a massive difference in the inference using these images. 
 
 ## 6. Perspective
